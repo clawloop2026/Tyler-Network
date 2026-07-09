@@ -1,0 +1,6 @@
+# Claude rules routed to the dedicated Claude strategy group.
+# Converted from /Users/tyler/Desktop/Tyler_20260709.conf and split on 2026-07-09.
+payload:
+  - DOMAIN-SUFFIX,claude.ai
+  - DOMAIN-SUFFIX,anthropic.com
+  - DOMAIN-SUFFIX,anthropic.com.cdn.cloudflare.net

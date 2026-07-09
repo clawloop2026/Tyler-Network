@@ -1,0 +1,17 @@
+# Apple direct rules.
+# Converted from /Users/tyler/Desktop/Tyler_20260709.conf on 2026-07-09.
+payload:
+  - DOMAIN-SUFFIX,apple.com
+  - DOMAIN-SUFFIX,icloud.com
+  - DOMAIN-SUFFIX,icloud-content.com
+  - DOMAIN-SUFFIX,me.com
+  - DOMAIN-SUFFIX,mzstatic.com
+  - DOMAIN-SUFFIX,itunes.com
+  - DOMAIN-SUFFIX,itunes.apple.com
+  - DOMAIN-SUFFIX,cdn-apple.com
+  - DOMAIN-SUFFIX,apple-dns.net
+  - DOMAIN-SUFFIX,aaplimg.com
+  - DOMAIN-SUFFIX,appstore.com
+  - DOMAIN-SUFFIX,apple-relay.apple.com
+  - DOMAIN-SUFFIX,apple-relay.cloudflare.com
+  - IP-CIDR,17.0.0.0/8,no-resolve

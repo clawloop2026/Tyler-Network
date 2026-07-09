@@ -1,0 +1,12 @@
+# YouTube rules routed to Singapore-Media.
+# Converted from /Users/tyler/Desktop/Tyler_20260709.conf on 2026-07-09.
+payload:
+  - DOMAIN-SUFFIX,youtube.com
+  - DOMAIN-SUFFIX,youtu.be
+  - DOMAIN-SUFFIX,youtube-nocookie.com
+  - DOMAIN-SUFFIX,googlevideo.com
+  - DOMAIN-SUFFIX,ytimg.com
+  - DOMAIN-SUFFIX,youtubei.googleapis.com
+  - DOMAIN-SUFFIX,youtube.googleapis.com
+  - DOMAIN-SUFFIX,ggpht.com
+  - DOMAIN-KEYWORD,youtube

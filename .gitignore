@@ -1,0 +1,9 @@
+# Private proxy material. Do not commit real airport subscriptions or node tokens.
+/private/*
+!/private/proxies.example.yaml
+providers/proxies*.yaml
+*.secret.yaml
+*.local.yaml
+
+# System/editor noise
+.DS_Store

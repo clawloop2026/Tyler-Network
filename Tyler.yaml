@@ -1,0 +1,204 @@
+# Tyler Network unified Mihomo/Clash profile
+# Platforms: Clash Verge Rev (Mac), Stash (iPhone), Mihomo/LuCI (Mudi 7)
+# Source rules converted from Tyler_20260709.conf on 2026-07-09.
+# No airport subscription token is stored in this YAML.
+
+mixed-port: 7890
+allow-lan: true
+mode: rule
+log-level: info
+ipv6: false
+
+external-controller: 127.0.0.1:9090
+
+profile:
+  store-selected: true
+  store-fake-ip: true
+
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - "*.lan"
+    - "*.local"
+    - localhost.ptlogin2.qq.com
+  nameserver:
+    - 223.5.5.5
+    - 223.6.6.6
+  fallback:
+    - 8.8.8.8
+    - 8.8.4.4
+
+proxy-providers:
+  TylerPrivate:
+    type: file
+    path: ./private/proxies.yaml
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 600
+
+proxy-groups:
+  - name: Auto
+    type: url-test
+    use:
+      - TylerPrivate
+    url: http://www.gstatic.com/generate_204
+    interval: 600
+    tolerance: 100
+    timeout: 5000
+
+  - name: Singapore-AI
+    type: url-test
+    use:
+      - TylerPrivate
+    filter: "(?i)(新加坡|狮城|singapore|sg)"
+    url: http://www.gstatic.com/generate_204
+    interval: 600
+    tolerance: 100
+    timeout: 5000
+
+  - name: Singapore-Media
+    type: url-test
+    use:
+      - TylerPrivate
+    filter: "(?i)(新加坡|狮城|singapore|sg)"
+    url: http://www.gstatic.com/generate_204
+    interval: 600
+    tolerance: 100
+    timeout: 5000
+
+  - name: Claude
+    type: select
+    proxies:
+      - Canada-Residential
+      - Japan
+      - Taiwan
+      - Singapore-AI
+      - Proxy
+
+  - name: Taiwan
+    type: url-test
+    use:
+      - TylerPrivate
+    filter: "(?i)(台湾|台灣|taiwan|tw)"
+    url: http://www.gstatic.com/generate_204
+    interval: 600
+    tolerance: 100
+    timeout: 5000
+
+  - name: Japan
+    type: url-test
+    use:
+      - TylerPrivate
+    filter: "(?i)(日本|japan|jp)"
+    url: http://www.gstatic.com/generate_204
+    interval: 600
+    tolerance: 100
+    timeout: 5000
+
+  - name: Taiwan-Japan
+    type: url-test
+    use:
+      - TylerPrivate
+    filter: "(?i)(台湾|台灣|taiwan|tw|日本|japan|jp)"
+    url: http://www.gstatic.com/generate_204
+    interval: 600
+    tolerance: 100
+    timeout: 5000
+
+  - name: Canada-Residential
+    type: select
+    use:
+      - TylerPrivate
+    filter: "(?i)(加拿大|canada|ca|toronto|vancouver|brume|residential|住宅|家宽|wireguard|wg|home)"
+    proxies:
+      - DIRECT
+
+  - name: Proxy
+    type: select
+    proxies:
+      - Auto
+      - Singapore-AI
+      - Singapore-Media
+      - Taiwan-Japan
+      - Taiwan
+      - Japan
+      - Canada-Residential
+      - DIRECT
+
+  - name: Gemini
+    type: select
+    proxies:
+      - Taiwan-Japan
+      - Taiwan
+      - Japan
+      - Proxy
+
+rule-providers:
+  apple:
+    type: file
+    behavior: classical
+    path: ./rules/apple.yaml
+
+  gemini:
+    type: file
+    behavior: classical
+    path: ./rules/gemini.yaml
+
+  ai:
+    type: file
+    behavior: classical
+    path: ./rules/ai.yaml
+
+  claude:
+    type: file
+    behavior: classical
+    path: ./rules/claude.yaml
+
+  youtube:
+    type: file
+    behavior: classical
+    path: ./rules/youtube.yaml
+
+  google:
+    type: file
+    behavior: classical
+    path: ./rules/google.yaml
+
+  legacy-reject:
+    type: file
+    behavior: classical
+    path: ./rules/legacy-reject.yaml
+
+  legacy-proxy:
+    type: file
+    behavior: classical
+    path: ./rules/legacy-proxy.yaml
+
+  legacy-direct:
+    type: file
+    behavior: classical
+    path: ./rules/legacy-direct.yaml
+
+  china:
+    type: file
+    behavior: classical
+    path: ./rules/china.yaml
+
+rules:
+  - RULE-SET,apple,DIRECT
+  - RULE-SET,gemini,Gemini
+  - RULE-SET,claude,Claude
+  - RULE-SET,ai,Singapore-AI
+  - RULE-SET,youtube,Singapore-Media
+  - RULE-SET,google,Proxy
+  - RULE-SET,legacy-reject,REJECT
+  - RULE-SET,legacy-proxy,Proxy
+  - RULE-SET,legacy-direct,DIRECT
+  - RULE-SET,china,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,Proxy

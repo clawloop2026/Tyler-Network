@@ -1,0 +1,3 @@
+# Copy this file to private/proxies.yaml and fill it locally.
+# Keep real subscription URLs, airport tokens, and node credentials out of Git.
+proxies: []

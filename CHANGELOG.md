@@ -1,0 +1,18 @@
+# Changelog
+
+## 2026-07-09
+
+- Updated platform target from FlClash to Clash Verge Rev on Mac while keeping Stash and Mihomo/LuCI compatibility.
+- Confirmed Mudi 7 uses regular Mihomo/LuCI style deployment, so the profile remains a General Config style portable YAML.
+- Added dedicated Claude strategy group and `rules/claude.yaml` for Claude/Anthropic traffic.
+- Split Claude/Anthropic domains out of generic AI rules so Claude can use more stable non-mainland nodes.
+- Converted `Tyler_20260709.conf` from Shadowrocket-style rules into a Mihomo/Clash YAML profile.
+- Added `Tyler.yaml` as the unified profile for FlClash, Stash, and Mihomo.
+- Added split rule providers for AI, Gemini, YouTube, Google, Apple, China, and compatible legacy rules.
+- Routed non-Gemini AI traffic to `Singapore-AI`.
+- Routed Gemini traffic through Japan/Taiwan strategy group `Gemini`.
+- Routed YouTube traffic to `Singapore-Media`.
+- Routed Apple, China mainland, and private networks to `DIRECT`.
+- Kept subscription tokens and real nodes out of `Tyler.yaml` by using ignored local file provider `./private/proxies.yaml`.
+- Split compatible legacy rules by action into reject, proxy, and direct rule providers.
+- Recorded non-portable Shadowrocket rules in `rules/unsupported-shadowrocket-rules.md`.

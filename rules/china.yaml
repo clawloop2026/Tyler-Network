@@ -1,0 +1,9 @@
+# China mainland and private network direct rules.
+# Converted from /Users/tyler/Desktop/Tyler_20260709.conf on 2026-07-09.
+payload:
+  - IP-CIDR,10.0.0.0/8
+  - IP-CIDR,100.64.0.0/10
+  - IP-CIDR,127.0.0.0/8
+  - IP-CIDR,172.16.0.0/12
+  - IP-CIDR,192.168.0.0/16
+  - GEOIP,CN
