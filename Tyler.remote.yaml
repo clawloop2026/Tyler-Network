@@ -1,0 +1,224 @@
+# Tyler Network remote Mihomo/Clash profile
+# Platforms: Stash (iPhone), Clash Verge Rev remote profile, Mihomo remote profile
+# Rule providers are loaded from GitHub Raw URLs.
+# Do not commit real airport subscription tokens to this file.
+
+mixed-port: 7890
+allow-lan: true
+mode: rule
+log-level: info
+ipv6: false
+
+profile:
+  store-selected: true
+  store-fake-ip: true
+
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - "*.lan"
+    - "*.local"
+    - localhost.ptlogin2.qq.com
+  nameserver:
+    - 223.5.5.5
+    - 223.6.6.6
+  fallback:
+    - 8.8.8.8
+    - 8.8.4.4
+
+proxy-providers:
+  TylerPrivate:
+    type: http
+    url: https://example.invalid/replace-with-your-private-subscription-url
+    path: ./providers/TylerPrivate.yaml
+    interval: 86400
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 600
+
+proxy-groups:
+  - name: Auto
+    type: url-test
+    use:
+      - TylerPrivate
+    url: http://www.gstatic.com/generate_204
+    interval: 600
+    tolerance: 100
+    timeout: 5000
+
+  - name: Singapore-AI
+    type: url-test
+    use:
+      - TylerPrivate
+    filter: "(?i)(新加坡|狮城|singapore|sg)"
+    url: http://www.gstatic.com/generate_204
+    interval: 600
+    tolerance: 100
+    timeout: 5000
+
+  - name: Singapore-Media
+    type: url-test
+    use:
+      - TylerPrivate
+    filter: "(?i)(新加坡|狮城|singapore|sg)"
+    url: http://www.gstatic.com/generate_204
+    interval: 600
+    tolerance: 100
+    timeout: 5000
+
+  - name: Claude
+    type: select
+    proxies:
+      - Canada-Residential
+      - Japan
+      - Taiwan
+      - Singapore-AI
+      - Proxy
+
+  - name: Taiwan
+    type: url-test
+    use:
+      - TylerPrivate
+    filter: "(?i)(台湾|台灣|taiwan|tw)"
+    url: http://www.gstatic.com/generate_204
+    interval: 600
+    tolerance: 100
+    timeout: 5000
+
+  - name: Japan
+    type: url-test
+    use:
+      - TylerPrivate
+    filter: "(?i)(日本|japan|jp)"
+    url: http://www.gstatic.com/generate_204
+    interval: 600
+    tolerance: 100
+    timeout: 5000
+
+  - name: Taiwan-Japan
+    type: url-test
+    use:
+      - TylerPrivate
+    filter: "(?i)(台湾|台灣|taiwan|tw|日本|japan|jp)"
+    url: http://www.gstatic.com/generate_204
+    interval: 600
+    tolerance: 100
+    timeout: 5000
+
+  - name: Canada-Residential
+    type: select
+    use:
+      - TylerPrivate
+    filter: "(?i)(加拿大|canada|ca|toronto|vancouver|brume|residential|住宅|家宽|wireguard|wg|home)"
+    proxies:
+      - DIRECT
+
+  - name: Proxy
+    type: select
+    proxies:
+      - Auto
+      - Singapore-AI
+      - Singapore-Media
+      - Taiwan-Japan
+      - Taiwan
+      - Japan
+      - Canada-Residential
+      - DIRECT
+
+  - name: Gemini
+    type: select
+    proxies:
+      - Taiwan-Japan
+      - Taiwan
+      - Japan
+      - Proxy
+
+rule-providers:
+  apple:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/clawloop2026/Tyler-Network/main/rules/apple.yaml
+    path: ./ruleset/apple.yaml
+    interval: 86400
+
+  gemini:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/clawloop2026/Tyler-Network/main/rules/gemini.yaml
+    path: ./ruleset/gemini.yaml
+    interval: 86400
+
+  ai:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/clawloop2026/Tyler-Network/main/rules/ai.yaml
+    path: ./ruleset/ai.yaml
+    interval: 86400
+
+  claude:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/clawloop2026/Tyler-Network/main/rules/claude.yaml
+    path: ./ruleset/claude.yaml
+    interval: 86400
+
+  youtube:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/clawloop2026/Tyler-Network/main/rules/youtube.yaml
+    path: ./ruleset/youtube.yaml
+    interval: 86400
+
+  google:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/clawloop2026/Tyler-Network/main/rules/google.yaml
+    path: ./ruleset/google.yaml
+    interval: 86400
+
+  legacy-reject:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/clawloop2026/Tyler-Network/main/rules/legacy-reject.yaml
+    path: ./ruleset/legacy-reject.yaml
+    interval: 86400
+
+  legacy-proxy:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/clawloop2026/Tyler-Network/main/rules/legacy-proxy.yaml
+    path: ./ruleset/legacy-proxy.yaml
+    interval: 86400
+
+  legacy-direct:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/clawloop2026/Tyler-Network/main/rules/legacy-direct.yaml
+    path: ./ruleset/legacy-direct.yaml
+    interval: 86400
+
+  china:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/clawloop2026/Tyler-Network/main/rules/china.yaml
+    path: ./ruleset/china.yaml
+    interval: 86400
+
+rules:
+  - RULE-SET,apple,DIRECT
+  - RULE-SET,gemini,Gemini
+  - RULE-SET,claude,Claude
+  - RULE-SET,ai,Singapore-AI
+  - RULE-SET,youtube,Singapore-Media
+  - RULE-SET,google,Proxy
+  - RULE-SET,legacy-reject,REJECT
+  - RULE-SET,legacy-proxy,Proxy
+  - RULE-SET,legacy-direct,DIRECT
+  - RULE-SET,china,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,Proxy

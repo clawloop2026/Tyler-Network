@@ -2,6 +2,9 @@
 
 ## 2026-07-09
 
+- Added `Tyler.remote.yaml` for Stash and URL-based imports, using GitHub Raw rule providers.
+- Documented separate import paths for Clash Verge Rev, Stash, and Mihomo/LuCI.
+- Kept the remote profile subscription field as a placeholder so real airport tokens stay out of Git.
 - Updated platform target from FlClash to Clash Verge Rev on Mac while keeping Stash and Mihomo/LuCI compatibility.
 - Confirmed Mudi 7 uses regular Mihomo/LuCI style deployment, so the profile remains a General Config style portable YAML.
 - Added dedicated Claude strategy group and `rules/claude.yaml` for Claude/Anthropic traffic.
