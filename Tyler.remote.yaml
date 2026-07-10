@@ -50,6 +50,7 @@ proxy-groups:
     interval: 600
     tolerance: 100
     timeout: 5000
+    lazy: true
 
   - name: Singapore-AI
     type: url-test
