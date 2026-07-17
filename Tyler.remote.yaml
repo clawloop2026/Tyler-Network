@@ -53,14 +53,18 @@ proxy-groups:
     lazy: true
 
   - name: Singapore-AI
-    type: url-test
+    # Keep one manually selected exit for AI account/IP consistency.
+    type: select
     use:
       - TylerPrivate
     filter: "(?i)(新加坡|狮城|singapore|sg)"
-    url: http://www.gstatic.com/generate_204
-    interval: 600
-    tolerance: 100
-    timeout: 5000
+
+  - name: ChatGPT
+    type: select
+    proxies:
+      - Singapore-AI
+      - Japan
+      - Taiwan
 
   - name: Singapore-Media
     type: url-test
@@ -147,6 +151,13 @@ rule-providers:
     path: ./ruleset/apple.yaml
     interval: 86400
 
+  chatgpt:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/clawloop2026/Tyler-Network/main/rules/chatgpt.yaml
+    path: ./ruleset/chatgpt.yaml
+    interval: 86400
+
   gemini:
     type: http
     behavior: classical
@@ -211,6 +222,13 @@ rule-providers:
     interval: 86400
 
 rules:
+  # Critical inline fallback: keep ChatGPT proxied if a rule-provider cache fails.
+  - DOMAIN-SUFFIX,chatgpt.com,ChatGPT
+  - DOMAIN-SUFFIX,openai.com,ChatGPT
+  - DOMAIN-SUFFIX,oaistatic.com,ChatGPT
+  - DOMAIN-SUFFIX,oaiusercontent.com,ChatGPT
+  - DOMAIN-SUFFIX,sora.com,ChatGPT
+  - RULE-SET,chatgpt,ChatGPT
   - RULE-SET,apple,DIRECT
   - RULE-SET,gemini,Gemini
   - RULE-SET,claude,Claude

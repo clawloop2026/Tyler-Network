@@ -1,11 +1,6 @@
-# AI rules excluding Gemini and Claude, routed to Singapore-AI.
+# AI rules excluding ChatGPT, Gemini, and Claude, routed to Singapore-AI.
 # Converted from /Users/tyler/Desktop/Tyler_20260709.conf on 2026-07-09.
 payload:
-  - DOMAIN-SUFFIX,chatgpt.com
-  - DOMAIN-SUFFIX,openai.com
-  - DOMAIN-SUFFIX,oaistatic.com
-  - DOMAIN-SUFFIX,oaiusercontent.com
-  - DOMAIN-SUFFIX,sora.com
   - DOMAIN-SUFFIX,perplexity.ai
   - DOMAIN-SUFFIX,grok.com
   - DOMAIN-SUFFIX,x.ai

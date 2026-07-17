@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-07-17
+
+- Added a dedicated `ChatGPT` strategy group and `rules/chatgpt.yaml`.
+- Moved ChatGPT/OpenAI domains out of the generic AI rules.
+- Added inline ChatGPT/OpenAI routing rules before all rule providers so Stash still proxies ChatGPT when its iCloud ruleset cache fails.
+- Changed `Singapore-AI` from automatic latency testing to manual selection to keep a stable exit IP and avoid silent switching to an incorrectly labeled Hong Kong exit.
+- Kept Japan and Taiwan as explicit ChatGPT fallback groups while preserving Singapore as the primary policy.
+- Diagnosed Stash `resource deadlock avoided` errors as an iCloud resource-cache failure that can leave proxy groups empty and fall back to direct access.
+
 ## 2026-07-09
 
 - Added `Tyler.remote.yaml` for Stash and URL-based imports, using GitHub Raw rule providers.
